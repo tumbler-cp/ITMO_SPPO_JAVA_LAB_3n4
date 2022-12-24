@@ -15,7 +15,6 @@ public class Propeller extends Tech implements TransportIF{
     private final int rpm;
     private List<Astronaut> Passengers = new ArrayList<>();
     private final List<Place> bannedPlaces = new ArrayList<>();
-    public boolean currStat;
 
     @Override
     public void addPassengers(Astronaut... astronauts) {
@@ -113,7 +112,7 @@ public class Propeller extends Tech implements TransportIF{
 
     public Propeller(int Angle, float Diameter, int RPM){
         super("Пропеллер", Type.TRANSPORT);
-        currStat = super.status();
+        this.stat = super.status();
         this.angle = Angle;
         this.diameter = Diameter;
         this.rpm = RPM;

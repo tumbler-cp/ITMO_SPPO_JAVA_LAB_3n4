@@ -8,9 +8,6 @@ public class Place {
         return place;
     }
 
-    public void setPlace(String place) {
-        this.place = place;
-    }
 
     public String toString(){
         return this.place;

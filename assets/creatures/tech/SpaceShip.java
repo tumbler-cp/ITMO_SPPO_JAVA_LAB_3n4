@@ -11,7 +11,6 @@ import java.util.List;
 public class SpaceShip extends Tech implements TransportIF{
     private List<Astronaut> Passengers = new ArrayList<>();
     private final List<Place> bannedPlaces = new ArrayList<>();
-    public boolean currStat;
 
     @Override
     public void addPassengers(Astronaut... astronauts) {
@@ -86,7 +85,7 @@ public class SpaceShip extends Tech implements TransportIF{
     public SpaceShip(String Name){
         super(Name);
         this.techType = Type.TRANSPORT;
-        currStat = super.status();
+        this.stat = super.status();
         bannedPlaces.add(Moon.GROTTO);
         bannedPlaces.add(Moon.CAVE);
         bannedPlaces.add(Moon.TUNNEL);

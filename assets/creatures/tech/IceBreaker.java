@@ -3,9 +3,6 @@ package assets.creatures.tech;
 import assets.environment.Place;
 
 public class IceBreaker extends Tech{
-
-    public boolean currStat;
-
     @Override
     public int hashCode() {
         return super.hashCode();
@@ -28,6 +25,6 @@ public class IceBreaker extends Tech{
     public IceBreaker(){
         this.name = "ледоруб";
         this.techType = Type.INSTRUMENT;
-        currStat = super.status();
+        this.stat = super.status();
     }
 }

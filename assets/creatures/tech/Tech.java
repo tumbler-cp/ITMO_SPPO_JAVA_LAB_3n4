@@ -8,9 +8,9 @@ public abstract class Tech extends Actor {
         TRANSPORT
     }
     protected Type techType;
-    protected boolean status(){return Math.random()>= 0.01;}
-    protected techHealth health = techHealth.NORMAL;
 
+    protected techHealth health = techHealth.NORMAL;
+    protected boolean status(){return Math.random()>= 0.01;}
     public techHealth getHealth() {
         return health;
     }
