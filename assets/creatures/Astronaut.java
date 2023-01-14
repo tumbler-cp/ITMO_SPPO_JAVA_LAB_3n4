@@ -8,6 +8,8 @@ import assets.environment.Place;
 import assets.environment.Moon;
 
 public class Astronaut extends Actor implements LiveObjectInterface {
+    public Spacesuit spacesuit = new Spacesuit();
+    public health Health;
     public enum Gender {
         MALE, FEMALE
     }//Гендер космонавта нужен только для сравнение его с другим экземляром класса Astronaut.
@@ -91,7 +93,18 @@ public class Astronaut extends Actor implements LiveObjectInterface {
         super(Name, Mass, place);
         this.gender = Gend;
     }
+    public enum health{
+        HEALTHY(" здоров"),
+        SICK(" болен");
+        String str;
+        health(String a){
+            this.str= a;
+        }
+        public String toString(){
+            return this.str;
+        }
 
+    }
     public class Spacesuit{
         public enum Status {
             PUT_ON ("надет"),

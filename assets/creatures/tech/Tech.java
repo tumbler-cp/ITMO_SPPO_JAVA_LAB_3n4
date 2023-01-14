@@ -1,8 +1,16 @@
 package assets.creatures.tech;
 
 import assets.Actor;
+import assets.creatures.Astronaut;
 
 public abstract class Tech extends Actor {
+    protected Astronaut user;
+    public void setUser(Astronaut user) {
+        this.user = user;
+    }
+    public Astronaut getUser() {
+        return user;
+    }
     public enum Type{
         INSTRUMENT,
         TRANSPORT

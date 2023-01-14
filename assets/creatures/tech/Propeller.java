@@ -3,8 +3,8 @@ import assets.creatures.Astronaut;
 import assets.creatures.Group;
 import assets.environment.Moon;
 import assets.environment.Place;
+import assets.exceptions.NobodyException;
 import assets.exceptions.WrongParameterException;
-import storytell.Story;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,6 +32,10 @@ public class Propeller extends Tech implements TransportIF{
             this.health = techHealth.BROKEN;
             throw new WrongParameterException("Negative RPM!");}
         this.rpm = rpm;
+    }
+
+    public void setDriver(Astronaut driver){
+        rockingChair.setUser(driver);
     }
 
     @Override
@@ -85,6 +89,9 @@ public class Propeller extends Tech implements TransportIF{
     @Override
     public void carry(Place goal)
     {
+        if(this.Passengers.size()==0){
+            throw new NobodyException("Transport is empty");
+        }
         if(this.health == techHealth.BROKEN){
             System.out.println("Пропеллер сломан");
         } else {
@@ -154,12 +161,18 @@ public class Propeller extends Tech implements TransportIF{
     }
     public class nylonCord{
         public void Attach(Astronaut ... astronauts){
-            for (Astronaut astronaut: astronauts) System.out.println(astronaut + "привязался к капроновому шнуру");
+            for (Astronaut astronaut: astronauts) System.out.println(astronaut + " привязался к капроновому шнуру");
             Propeller.this.addPassengers(astronauts);
         }
         public void Attach(Group group){
-            for (Astronaut astronaut: group.members) System.out.println(astronaut + "привязался к капроновому шнуру");
+            for (Astronaut astronaut: group.members) System.out.println(astronaut + " привязался к капроновому шнуру");
             Propeller.this.addPassengers(group);
         }
     }
+    Tech rockingChair = new Tech(){
+        public void setUser(Astronaut a){
+            super.setUser(a);
+            System.out.println(a + " зафиксирован ремнями на кресле качалке");
+        }
+    };
 }

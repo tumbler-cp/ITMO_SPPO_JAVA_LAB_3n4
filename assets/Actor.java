@@ -7,7 +7,7 @@ import assets.exceptions.WrongParameterException;
 public abstract class Actor {
     protected String name;
     protected int mass;
-    protected Place currPlace = Moon.TUNNEL;
+    protected Place currPlace = Moon.INNER_SURFACE;
     public void setName(String name) {
         this.name = name;
     }
@@ -46,7 +46,7 @@ public abstract class Actor {
     public Actor(String N, int M){
         this(N);
         if(M<=0){
-            throw new IllegalArgumentException("Масса объекта должна быть положительной и не равна нулю.");
+            throw new IllegalArgumentException("Mass of object shall be bigger than zero.");
         }
         this.mass = M;
     }

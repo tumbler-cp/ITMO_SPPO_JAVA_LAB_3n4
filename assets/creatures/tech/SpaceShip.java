@@ -4,6 +4,7 @@ import assets.creatures.Astronaut;
 import assets.creatures.Group;
 import assets.environment.Moon;
 import assets.environment.Place;
+import assets.exceptions.NobodyException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,6 +63,9 @@ public class SpaceShip extends Tech implements TransportIF{
 
     public void carry(Place goal)
     {
+        if(this.Passengers.size()==0){
+            throw new NobodyException("Spaceship is empty");
+        }
         System.out.println(this+" летает.");
     }
 
