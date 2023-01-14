@@ -1,20 +1,38 @@
 package assets.creatures.tech;
-
 import assets.creatures.Astronaut;
 import assets.creatures.Group;
 import assets.environment.Moon;
 import assets.environment.Place;
-
+import assets.exceptions.WrongParameterException;
+import storytell.Story;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
+
 public class Propeller extends Tech implements TransportIF{
-    private final int angle;
-    private final float diameter;
-    private final int rpm;
-    private List<Astronaut> Passengers = new ArrayList<>();
+    private int angle;
+    private float diameter;
+    private int rpm;
+
+    private List<Astronaut> Passengers;
     private final List<Place> bannedPlaces = new ArrayList<>();
+
+    public void setAngle(int angle) throws WrongParameterException {
+        if(Math.abs(angle)>360) throw new WrongParameterException("Angle is out of range");
+        this.angle = angle;
+    }
+
+    public void setDiameter(float diameter) throws WrongParameterException {
+        if(diameter<0)throw new WrongParameterException("Negative diameter!");
+        this.diameter = diameter;
+    }
+
+    public void setRpm(int rpm) throws WrongParameterException {
+        if(rpm < 0){
+            this.health = techHealth.BROKEN;
+            throw new WrongParameterException("Negative RPM!");}
+        this.rpm = rpm;
+    }
 
     @Override
     public void addPassengers(Astronaut... astronauts) {
@@ -28,7 +46,7 @@ public class Propeller extends Tech implements TransportIF{
             astronaut.inTransport = true;
             Passengers.add(astronaut);
             this.mass+=astronaut.getMass();
-            System.out.println(astronaut+" сел в "+this.name);
+            System.out.println(astronaut+" теперь в "+this.name);
         }
     }
 
@@ -52,7 +70,7 @@ public class Propeller extends Tech implements TransportIF{
             astronaut.inTransport = true;
             Passengers.add(astronaut);
             this.mass+=astronaut.getMass();
-            System.out.println(astronaut+" сел в "+this.name);
+            System.out.println(astronaut+" теперь в "+this.name);
         }
     }
 
@@ -67,24 +85,32 @@ public class Propeller extends Tech implements TransportIF{
     @Override
     public void carry(Place goal)
     {
-        if (bannedPlaces.contains(goal)){
-            System.out.println("В "+goal+" нельзя переместится на "+this.name);
-            return;
+        if(this.health == techHealth.BROKEN){
+            System.out.println("Пропеллер сломан");
+        } else {
+            if (bannedPlaces.contains(goal)) {
+                System.out.println("В " + goal + " нельзя переместится на " + this.name);
+                return;
+            }
+            float f = Math.abs((float) angle) * Moon.defaultAirPressure * (float) Math.pow(rpm, 2) * (float) Math.pow(diameter, 4);
+            if(f<=0){
+                System.out.println("Тяга отрицательная или равна нулю");
+                return;
+            }
+            float P = this.mass * Moon.defaultGravitation;
+            if (f - P <= 1000) {
+                System.out.println(this.name + " создаёт слабую тягу.");
+                System.out.print("Причина: ");
+                if (Moon.defaultAirPressure <= 0.1f) System.out.println("Воздух крайне разрежен");
+                else if (this.diameter < 0.5f) System.out.println("Пропеллер слишком маленький");
+                else if (this.rpm <= 500) System.out.println("Малое кол-во об/мин.");
+                else if (Math.abs(this.angle) <= 5) System.out.println("Форма пропеллера.");
+            }
+            for (Astronaut passenger : Passengers) {
+                passenger.setCurrPlace(goal);
+            }
+            System.out.println(this.name + " с " + Passengers + " переместился в " + goal);
         }
-        float f =  (float) angle * Moon.airPressure * (float)Math.pow(rpm, 2) * (float)Math.pow(diameter, 4);
-        float P = this.mass * Moon.gravitation;
-        if(f-P<=1000) {
-            System.out.println(this.name + " создаёт слабую тягу.");
-            System.out.print("Причина: ");
-            if(Moon.airPressure <= 0.1f) System.out.println("Воздух крайне разрежен");
-            else if (this.diameter < 0.5f) System.out.println("Пропеллер слишком маленький");
-            else if (this.rpm <= 500) System.out.println("Малое кол-во об/мин.");
-            else if (this.angle <= 5) System.out.println("Форма пропеллера.");
-        }
-        for (Astronaut passenger : Passengers) {
-            passenger.setCurrPlace(goal);
-        }
-        System.out.println(this.name + " с " + Passengers + " переместился в "+goal);
     }
 
     @Override
@@ -113,11 +139,27 @@ public class Propeller extends Tech implements TransportIF{
     public Propeller(int Angle, float Diameter, int RPM){
         super("Пропеллер", Type.TRANSPORT);
         this.stat = super.status();
-        this.angle = Angle;
-        this.diameter = Diameter;
-        this.rpm = RPM;
+        try {
+            this.setAngle(Angle);
+            this.setRpm(RPM);
+            this.setDiameter(Diameter);
+            this.setMass(30);
+        }
+        catch (WrongParameterException a){
+            a.printStackTrace();
+        }
         bannedPlaces.add(Moon.GROTTO);
         bannedPlaces.add(Moon.CAVE);
         Passengers = new ArrayList<>();
+    }
+    public class nylonCord{
+        public void Attach(Astronaut ... astronauts){
+            for (Astronaut astronaut: astronauts) System.out.println(astronaut + "привязался к капроновому шнуру");
+            Propeller.this.addPassengers(astronauts);
+        }
+        public void Attach(Group group){
+            for (Astronaut astronaut: group.members) System.out.println(astronaut + "привязался к капроновому шнуру");
+            Propeller.this.addPassengers(group);
+        }
     }
 }

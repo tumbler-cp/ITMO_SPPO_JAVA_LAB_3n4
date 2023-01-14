@@ -22,13 +22,13 @@ public class Group extends Actor implements LiveObjectInterface{
             if(astronaut.getCurrPlace()!=nPlace){
                 astronaut.move(nPlace);
             }
-            System.out.println(astronaut + " вступает в группу " + this.name);
+            System.out.println(astronaut + " вступает в " + this);
             members.add(astronaut);
         }
     }
     public void delMembers(Astronaut ... astronauts){
         for (Astronaut astronaut: astronauts){
-            System.out.println(astronaut + " выходит из группы "+this.name);
+            System.out.println(astronaut + " выходит из " + this);
             members.remove(astronaut);
         }
     }
@@ -37,24 +37,23 @@ public class Group extends Actor implements LiveObjectInterface{
             System.out.println("Кристаллы можно добывать только в пещере.");
             return;
         }
-        System.out.println(this.name + " добывает "+ crystals);
+        System.out.println(this + " добывает "+ crystals);
     }
     public void move(Place place) {
         this.currPlace = place;
         for(Astronaut member: this.members){
             member.setCurrPlace(place);
         }
-        System.out.println(this.name + " переместился в " + place);
+        System.out.println(this + " переместился в " + place);
     }
     public void use(Tech tech, Object a) {
 
         String buf = "";
-        if(tech.stat) buf = "использует "+tech + " на "+ a;
+        if(tech.stat) buf = this + "использует "+tech + " на "+ a;
         else buf = tech + " сломан(-а)!";
-        System.out.println(this.name+" "+buf);
+        System.out.println(buf);
         if(tech.getTechType() == Tech.Type.TRANSPORT){
             System.out.println("На транспорте можно только ехать.");
-            return;
         } else if (tech.getTechType() == Tech.Type.INSTRUMENT) {
             if(tech instanceof IceBreaker){
                 ((IceBreaker) tech).makeWay((Place) a);
@@ -76,14 +75,18 @@ public class Group extends Actor implements LiveObjectInterface{
         } else return false;
     }
 
-    @Override
-    public String toString() {
-        return "Группа "+this.name+" (состоит из) "+members;
+
+    public String toString(){
+        return "Группа "+this.name;
+    }
+
+    public String printBody() {
+        return this +" (состоит из) "+members;
     }
 
     @Override
     public void printPlace() {
-        System.out.println("Группа "+this.name+" находится в "+this.currPlace);
+        System.out.println(this+" находится в "+this.currPlace);
     }
     public Group(String Name){
         super(Name);

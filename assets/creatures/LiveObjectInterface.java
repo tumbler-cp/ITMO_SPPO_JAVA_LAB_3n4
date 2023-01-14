@@ -9,7 +9,7 @@ interface LiveObjectInterface {
     void mine(Crystals crystals);
     void move(Place place);
     void use(Tech tech, Object a);
-    default void check(Tech tech){
-        System.out.println("Производится проверка "+ tech+ ". "+tech+" "+tech.getHealth());
+    default void check(Tech tech, Object obj){
+        System.out.println(obj + " проверяет "+ tech+ ". "+tech+" "+tech.getHealth());
     }
 }

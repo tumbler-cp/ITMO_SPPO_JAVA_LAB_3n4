@@ -2,6 +2,7 @@ package assets;
 
 import assets.environment.Moon;
 import assets.environment.Place;
+import assets.exceptions.WrongParameterException;
 
 public abstract class Actor {
     protected String name;
@@ -14,10 +15,14 @@ public abstract class Actor {
         return name;
     }
 
+
     public int getMass() {
         return mass;
     }
-    public void setMass(int mass) {
+    public void setMass(int mass) throws WrongParameterException {
+        if(mass<=0){
+            throw new WrongParameterException("Unreal mass");
+        }
         this.mass = mass;
     }
 

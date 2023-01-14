@@ -91,4 +91,29 @@ public class Astronaut extends Actor implements LiveObjectInterface {
         super(Name, Mass, place);
         this.gender = Gend;
     }
+
+    public class Spacesuit{
+        public enum Status {
+            PUT_ON ("надет"),
+            PUT_OFF ("снят");
+            String text;
+            Status(String s){
+                text = s;
+            }
+
+            @Override
+            public String toString() {
+                return this.text;
+            }
+        }
+        Status status = Status.PUT_OFF;
+        public void putOn(){
+            this.status = Status.PUT_ON;
+            System.out.println(Astronaut.this + ": " + "скафандр" + this.status);
+        }
+        public void putOff(){
+            this.status = Status.PUT_OFF;
+            System.out.println(Astronaut.this + ": " + "скафандр" + this.status);
+        }
+    }
 }
