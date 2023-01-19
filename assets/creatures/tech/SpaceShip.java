@@ -2,7 +2,7 @@ package assets.creatures.tech;
 
 import assets.creatures.Astronaut;
 import assets.creatures.Group;
-import assets.environment.Moon;
+import assets.environment.Space;
 import assets.environment.Place;
 import assets.exceptions.NobodyException;
 
@@ -90,9 +90,9 @@ public class SpaceShip extends Tech implements TransportIF{
         super(Name);
         this.techType = Type.TRANSPORT;
         this.stat = super.status();
-        bannedPlaces.add(Moon.GROTTO);
-        bannedPlaces.add(Moon.CAVE);
-        bannedPlaces.add(Moon.TUNNEL);
+        bannedPlaces.add(Space.Moon.GROTTO);
+        bannedPlaces.add(Space.Moon.CAVE);
+        bannedPlaces.add(Space.Moon.TUNNEL);
         Passengers = new ArrayList<>();
     }
 }

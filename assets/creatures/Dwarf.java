@@ -1,7 +1,7 @@
 package assets.creatures;
 import assets.*;
-import assets.creatures.Astronaut.Gender;
-import assets.environment.Moon;
+import assets.creatures.Gender;
+import assets.environment.Space;
 
 public class Dwarf extends Actor {
     public Gender gender;
@@ -16,7 +16,7 @@ public class Dwarf extends Actor {
         return this.name;
     }
     public void checkVisibility(Actor a){
-        if(a.getCurrPlace()!=Moon.INNER_SURFACE){
+        if(a.getCurrPlace()!= Space.Moon.INNER_SURFACE){
             System.out.println(a+" не видно.");
         }
         else System.out.println(a + " видно.");

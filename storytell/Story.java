@@ -3,15 +3,16 @@ package storytell;
 import assets.creatures.Astronaut;
 import assets.creatures.Dwarf;
 import assets.creatures.Group;
-import assets.creatures.Astronaut.Gender;
-import assets.creatures.Astronaut.health;
+import assets.creatures.Gender;
+import assets.creatures.Health;
 import assets.creatures.tech.IceBreaker;
 import assets.creatures.tech.Propeller;
-import assets.environment.Moon;
+import assets.creatures.tech.WeightlessDevice;
+import assets.environment.Space;
+import assets.exceptions.WrongParameterException;
 
 public class Story {
-    public static void main(String[] args) {
-        Moon moon = new Moon();
+    public static void main(String[] args) throws WrongParameterException {
         Astronaut znayka = new Astronaut("Знайка", 40, Gender.MALE);
         Astronaut zvezda = new Astronaut("Пр. Звездочкин", 40, Gender.MALE);
         Astronaut fuks = new Astronaut("Фуксия", 40, Gender.FEMALE);
@@ -36,21 +37,25 @@ public class Story {
         memega.help(znayka);
         propeller.setDriver(znayka);
         Group one = new Group("1", znayka, zvezda, fuks, seld, pilul, neznayka);
+        int buff = 0;
+        WeightlessDevice.turnOn(znayka, one, buff);
         cord.Attach(one);
         kant.checkVisibility(propeller);
-        propeller.carry(Moon.TUNNEL);
+        propeller.carry(Space.Moon.TUNNEL);
+        WeightlessDevice.turnOff(znayka, one, buff);
+        propeller.checkThrust();
         propeller.delPassengers(one);
         IceBreaker ice = new IceBreaker();
-        one.use(ice, Moon.GROTTO);
-        one.move(Moon.GROTTO);
-        one.use(ice, Moon.CAVE);
-        one.move(Moon.CAVE);
+        one.use(ice, Space.Moon.GROTTO);
+        one.move(Space.Moon.GROTTO);
+        one.use(ice, Space.Moon.CAVE);
+        one.move(Space.Moon.CAVE);
         Group two = new Group("2");
         znayka.splitGroup(one, two, znayka, zvezda, fuks, seld);
-        neznayka.Health = health.SICK;
-        System.out.println(neznayka +"" + neznayka.Health);
-        one.move(Moon.SURFACE);
-        moon.compareLights();
+        neznayka.health = Health.SICK;
+        System.out.println(neznayka +"" + neznayka.health);
+        one.move(Space.Moon.SURFACE);
+        Space.compareSystemLight();
 
     }
     

@@ -5,14 +5,12 @@ import assets.creatures.tech.IceBreaker;
 import assets.creatures.tech.Tech;
 import assets.environment.Crystals;
 import assets.environment.Place;
-import assets.environment.Moon;
+import assets.environment.Space;
+import assets.creatures.tech.WeightlessDevice;
 
 public class Astronaut extends Actor implements LiveObjectInterface {
     public Spacesuit spacesuit = new Spacesuit();
-    public health Health;
-    public enum Gender {
-        MALE, FEMALE
-    }//Гендер космонавта нужен только для сравнение его с другим экземляром класса Astronaut.
+    public Health health;
     protected Gender gender;
     public boolean inTransport;
     @Override
@@ -44,7 +42,7 @@ public class Astronaut extends Actor implements LiveObjectInterface {
 
     @Override
     public void mine(Crystals crystals) {
-        if(currPlace!=Moon.CAVE){
+        if(currPlace!=Space.Moon.CAVE){
             System.out.println("Кристаллы можно добывать только в пещере.");
             return;
         }
@@ -93,22 +91,23 @@ public class Astronaut extends Actor implements LiveObjectInterface {
         super(Name, Mass, place);
         this.gender = Gend;
     }
-    public enum health{
-        HEALTHY(" здоров"),
-        SICK(" болен");
-        String str;
-        health(String a){
-            this.str= a;
-        }
-        public String toString(){
-            return this.str;
-        }
 
+    public void checkGadgets(){
+        class Gadget extends Tech{
+            Gadget(String n){
+                this.name = n;
+
+            }
+        }
+        Gadget alpen = new Gadget("Альпеншток");
+        Gadget geoHammer = new Gadget("Геомолот");
+        IceBreaker iceBreaker = new IceBreaker();
+        System.out.println(alpen + ", " + geoHammer + ", " + iceBreaker + " привязаны к поясу.");
     }
     public class Spacesuit{
         public enum Status {
-            PUT_ON ("надет"),
-            PUT_OFF ("снят");
+            PUT_ON (" надет"),
+            PUT_OFF (" снят");
             String text;
             Status(String s){
                 text = s;

@@ -1,7 +1,7 @@
 package assets.creatures.tech;
 import assets.creatures.Astronaut;
 import assets.creatures.Group;
-import assets.environment.Moon;
+import assets.environment.Space;
 import assets.environment.Place;
 import assets.exceptions.NobodyException;
 import assets.exceptions.WrongParameterException;
@@ -85,6 +85,22 @@ public class Propeller extends Tech implements TransportIF{
             this.mass-=astronaut.getMass();
         }
     }
+    public void checkThrust(){
+        float f = Math.abs((float) angle) * Space.Moon.defaultAirPressure * (float) Math.pow(rpm, 2) * (float) Math.pow(diameter, 4);
+        if(f<=0){
+            System.out.println("Тяга отрицательная или равна нулю");
+            return;
+        }
+        float P = this.mass * Space.Moon.defaultGravitation;
+        if (f - P <= 1000) {
+            System.out.println(this.name + " создаёт слабую тягу.");
+            System.out.print("Причина: ");
+            if (Space.Moon.defaultAirPressure <= 0.1f) System.out.println("Воздух крайне разрежен");
+            else if (this.diameter < 0.5f) System.out.println("Пропеллер слишком маленький");
+            else if (this.rpm <= 500) System.out.println("Малое кол-во об/мин.");
+            else if (Math.abs(this.angle) <= 5) System.out.println("Форма пропеллера.");
+        }
+    }
 
     @Override
     public void carry(Place goal)
@@ -99,20 +115,7 @@ public class Propeller extends Tech implements TransportIF{
                 System.out.println("В " + goal + " нельзя переместится на " + this.name);
                 return;
             }
-            float f = Math.abs((float) angle) * Moon.defaultAirPressure * (float) Math.pow(rpm, 2) * (float) Math.pow(diameter, 4);
-            if(f<=0){
-                System.out.println("Тяга отрицательная или равна нулю");
-                return;
-            }
-            float P = this.mass * Moon.defaultGravitation;
-            if (f - P <= 1000) {
-                System.out.println(this.name + " создаёт слабую тягу.");
-                System.out.print("Причина: ");
-                if (Moon.defaultAirPressure <= 0.1f) System.out.println("Воздух крайне разрежен");
-                else if (this.diameter < 0.5f) System.out.println("Пропеллер слишком маленький");
-                else if (this.rpm <= 500) System.out.println("Малое кол-во об/мин.");
-                else if (Math.abs(this.angle) <= 5) System.out.println("Форма пропеллера.");
-            }
+            checkThrust();
             for (Astronaut passenger : Passengers) {
                 passenger.setCurrPlace(goal);
             }
@@ -155,8 +158,8 @@ public class Propeller extends Tech implements TransportIF{
         catch (WrongParameterException a){
             a.printStackTrace();
         }
-        bannedPlaces.add(Moon.GROTTO);
-        bannedPlaces.add(Moon.CAVE);
+        bannedPlaces.add(Space.Moon.GROTTO);
+        bannedPlaces.add(Space.Moon.CAVE);
         Passengers = new ArrayList<>();
     }
     public class nylonCord{

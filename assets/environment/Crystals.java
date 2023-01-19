@@ -21,7 +21,7 @@ public class Crystals extends Actor {
 
     public Crystals(String Ore){
         this.name = Ore;
-        this.currPlace = Moon.CAVE;
+        this.currPlace = Space.Moon.CAVE;
     }
 }
 

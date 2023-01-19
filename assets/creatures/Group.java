@@ -4,7 +4,7 @@ import assets.Actor;
 import assets.creatures.tech.IceBreaker;
 import assets.creatures.tech.Tech;
 import assets.environment.Crystals;
-import assets.environment.Moon;
+import assets.environment.Space;
 import assets.environment.Place;
 
 import java.util.ArrayList;
@@ -33,7 +33,7 @@ public class Group extends Actor implements LiveObjectInterface{
         }
     }
     public void mine(Crystals crystals){
-        if(currPlace!=Moon.CAVE){
+        if(currPlace!=Space.Moon.CAVE){
             System.out.println("Кристаллы можно добывать только в пещере.");
             return;
         }
